@@ -19,10 +19,15 @@ function userFactory(name, score) {
 const adminFunctionStore = Object.create(userFunctionStore);
 
 function adminFactory(name, score) {
-  const admin = Object.create(adminFunctionStore);
-  admin.name = name;
-  admin.score = score;
+  /*
+    Note: While this is the solution to what this particular exercise
+    is asking, using Object.setPrototypeOf is currenlty considered bad
+    for performance in most browsers. Do not use Object.setPrototypeOf
+    in production code. Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf
+  */
+  const admin = userFactory(name, score);
   admin.type = 'Admin';
+  Object.setPrototypeOf(admin, adminFunctionStore);
   return admin;
 }
 
